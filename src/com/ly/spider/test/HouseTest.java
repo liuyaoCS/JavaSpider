@@ -10,7 +10,7 @@ public class HouseTest
 {
 	//private static String url="http://bj.lianjia.com/ershoufang/bp360ep460rs望京/";
 	private static String preUrl="http://bj.lianjia.com/ershoufang/";
-	private static String conditionUrl="bp360ep462rs望京/";
+	private static String conditionUrl="bp330ep365rs望京/";
 	private static String tag="li.clear";
 
 	
@@ -23,7 +23,7 @@ public class HouseTest
 				Rule.SELECTION, 
 				Rule.GET);
 		Set<HouseInfoData> extracts = LJHouseExtractService.extract(rule,preUrl,conditionUrl);
-		System.out.println("共找到"+extracts.size()+"套\n");
+		//System.out.println("共找到"+extracts.size()+"套\n");
 		for (HouseInfoData data : extracts)System.out.println(data.toString());
 	}
 	

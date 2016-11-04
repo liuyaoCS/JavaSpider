@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import net.sf.json.JSONObject;
 
@@ -26,7 +28,22 @@ import com.ly.spider.util.TextUtil;
 public class LJHouseExtractService
 {
 	private static Set<HouseInfoData> datas=new ConcurrentSkipListSet<HouseInfoData>();
-	
+	private static ExecutorService service=Executors.newCachedThreadPool();
+	private static class Task implements Runnable{
+		String url;
+		String tag;
+		public Task(String url,String tag) {
+			// TODO Auto-generated constructor stub
+			this.url=url;
+			this.tag=tag;
+		}
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			fetchHousesInfo(this.url, this.tag);
+		}
+		
+	}
 	public static Set<HouseInfoData> extract(Rule rule,String preUrl,String conditionUrl)
 	{
 
@@ -36,8 +53,22 @@ public class LJHouseExtractService
 		int pageNum=fetchPages(rule);
 		for(int i=1;i<=pageNum;i++){
 			String url=preUrl+"pg"+i+conditionUrl;
-			fetchHousesInfo(url, rule.getResultTagName());
+			//fetchHousesInfo(url, rule.getResultTagName());       //同步方式
+			service.submit(new Task(url, rule.getResultTagName()));//异步方式
 		}
+		service.shutdown();
+		while (true) {  
+            if (service.isTerminated()) {  
+                System.out.println("结束了！共找到"+datas.size()+"套\n");  
+                break;  
+            }  
+            try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+        }  
 		return datas;
 	}
 	private static int fetchPages(Rule rule){

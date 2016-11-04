@@ -18,11 +18,7 @@ import com.ly.spider.rule.Rule;
 import com.ly.spider.rule.RuleException;
 import com.ly.spider.util.TextUtil;
 
-/**
- * 
- * @author zhy
- * 
- */
+
 public class ExtractService
 {
 	/**

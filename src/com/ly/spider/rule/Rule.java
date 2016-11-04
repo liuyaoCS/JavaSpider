@@ -3,7 +3,7 @@ package com.ly.spider.rule;
 /**
  * 规则类
  * 
- * @author zhy
+ * @author ly
  * 
  */
 public class Rule
