@@ -8,18 +8,22 @@ import com.ly.spider.rule.Rule;
 
 public class HouseTest
 {
-	private static String url="http://bj.lianjia.com/ershoufang/bp360ep1362rs望京/";
+	//private static String url="http://bj.lianjia.com/ershoufang/bp360ep460rs望京/";
+	private static String preUrl="http://bj.lianjia.com/ershoufang/";
+	private static String conditionUrl="bp360ep462rs望京/";
+	private static String tag="li.clear";
+
 	
 	public static void getLianJiaDatas()
 	{
-		Rule rule = new Rule(url,
+		Rule rule = new Rule(preUrl+conditionUrl,
 				null, 
 				null,
-				"li.clear", //div.title a[data-el=ershoufang]
+				tag, //div.title a[data-el=ershoufang]
 				Rule.SELECTION, 
 				Rule.GET);
-		Set<HouseInfoData> extracts = LJHouseExtractService.extract(rule);
-		//System.out.println("共找到"+extracts.size()+"套");
+		Set<HouseInfoData> extracts = LJHouseExtractService.extract(rule,preUrl,conditionUrl);
+		System.out.println("共找到"+extracts.size()+"套\n");
 		for (HouseInfoData data : extracts)System.out.println(data.toString());
 	}
 	
