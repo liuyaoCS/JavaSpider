@@ -9,6 +9,8 @@ import java.util.TreeSet;
 
 import javax.swing.plaf.TextUI;
 
+import net.sf.json.JSONObject;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,6 +22,10 @@ import com.ly.spider.bean.LinkTypeData;
 import com.ly.spider.rule.Rule;
 import com.ly.spider.rule.RuleException;
 import com.ly.spider.util.TextUtil;
+
+//import net.sf.json.JSONArray; 
+//import net.sf.json.JSONObject;
+//import net.sf.json.util.JSONStringer;
 
 /**
  * 
@@ -51,7 +57,7 @@ public class LJHouseExtractService
 			String[] values = rule.getValues();
 			String resultTagName = rule.getResultTagName();
 			int type = rule.getType();
-			int requestType = rule.getRequestMoethod();
+			int requestType = rule.getRequestMethod();
 
 			Connection conn = Jsoup.connect(url);
 			// 设置查询参数
@@ -77,27 +83,17 @@ public class LJHouseExtractService
 			}
 
 			//处理返回数据
-			Elements results = new Elements();
-			switch (type)
-			{
-			case Rule.CLASS:
-				results = doc.getElementsByClass(resultTagName);
-				break;
-			case Rule.ID:
-				Element result = doc.getElementById(resultTagName);
-				results.add(result);
-				break;
-			case Rule.SELECTION:
-				results = doc.select(resultTagName);
-				break;
-			default:
-				//当resultTagName为空时默认去body标签
-				if (TextUtil.isEmpty(resultTagName))
-				{
-					results = doc.getElementsByTag("body");
-				}
-			}
-
+			Element pageEle=doc.select("div.house-lst-page-box").get(0);
+			String pagesStr=pageEle.attr("page-data");
+			JSONObject pagesJson = JSONObject.fromObject(pagesStr);
+			int pages=(Integer) pagesJson.get("totalPage");
+			
+			Element numEle=doc.select("h2.total span").get(0);
+			String numStr=numEle.text();
+			
+			System.out.println("房源数:"+Integer.parseInt(numStr)+" 总页数"+pages);
+			
+			Elements results = doc.select(resultTagName);
 			for (Element result : results)
 			{
 				Element linkUrlEle = result.select("div.title a").get(0);

@@ -119,12 +119,12 @@ public class Rule
 		this.type = type;
 	}
 
-	public int getRequestMoethod()
+	public int getRequestMethod()
 	{
 		return requestMethod;
 	}
 
-	public void setRequestMoethod(int requestMoethod)
+	public void setRequestMethod(int requestMoethod)
 	{
 		this.requestMethod = requestMoethod;
 	}

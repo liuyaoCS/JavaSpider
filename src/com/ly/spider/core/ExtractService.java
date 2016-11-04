@@ -47,7 +47,7 @@ public class ExtractService
 			String[] values = rule.getValues();
 			String resultTagName = rule.getResultTagName();
 			int type = rule.getType();
-			int requestType = rule.getRequestMoethod();
+			int requestType = rule.getRequestMethod();
 
 			Connection conn = Jsoup.connect(url);
 			// 设置查询参数

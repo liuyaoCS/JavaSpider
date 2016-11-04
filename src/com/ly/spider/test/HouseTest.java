@@ -19,7 +19,7 @@ public class HouseTest
 				Rule.SELECTION, 
 				Rule.GET);
 		Set<HouseInfoData> extracts = LJHouseExtractService.extract(rule);
-		System.out.println("共找到"+extracts.size()+"套");
+		//System.out.println("共找到"+extracts.size()+"套");
 		for (HouseInfoData data : extracts)System.out.println(data.toString());
 	}
 	
